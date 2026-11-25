@@ -118,7 +118,8 @@ fi
 path_home="$temp_root/user-home"
 mkdir -p "$path_home"
 old_version="0.1.0-alpha.9"
-old_install="$temp_root/path-install/$old_version"
+path_install_root="$(mkdir -p "$temp_root/path-install" && cd "$temp_root/path-install" && pwd -P)"
+old_install="$path_install_root/$old_version"
 mkdir -p "$old_install" "$path_home/.local/bin"
 cp "$package_dir/lmr" "$old_install/lmr"
 chmod +x "$old_install/lmr"
@@ -126,8 +127,8 @@ printf '%s' "$old_version" > "$old_install/VERSION"
 old_home_line="export LMR_HOME=$(printf '%q' "$old_install")"
 printf '#!/usr/bin/env bash\n%s\nexec "$LMR_HOME/lmr" "$@"\n' "$old_home_line" > "$path_home/.local/bin/lmr"
 chmod +x "$path_home/.local/bin/lmr"
-HOME="$path_home" "$package_dir/install-unix.sh" --prefix "$temp_root/path-install"
-new_home_line="export LMR_HOME=$(printf '%q' "$temp_root/path-install/$version")"
+HOME="$path_home" "$package_dir/install-unix.sh" --prefix "$path_install_root"
+new_home_line="export LMR_HOME=$(printf '%q' "$path_install_root/$version")"
 if ! grep -Fqx -- "$new_home_line" "$path_home/.local/bin/lmr"; then
     echo "El instalador no actualizó el lanzador LMR existente" >&2
     exit 1
@@ -142,8 +143,8 @@ if [[ "$installed_output" != *"5.00"* ]]; then
     echo "El lanzador instalado no encontró módulos/runtime: $installed_output" >&2
     exit 1
 fi
-HOME="$path_home" "$package_dir/uninstall-unix.sh" --prefix "$temp_root/path-install" --yes
-if [[ -e "$temp_root/path-install/$version" || -e "$path_home/.local/bin/lmr" ]]; then
+HOME="$path_home" "$package_dir/uninstall-unix.sh" --prefix "$path_install_root" --yes
+if [[ -e "$path_install_root/$version" || -e "$path_home/.local/bin/lmr" ]]; then
     echo "El desinstalador no retiró la instalación y su lanzador" >&2
     exit 1
 fi

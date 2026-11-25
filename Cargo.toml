@@ -6,7 +6,6 @@ rust-version = "1.85"
 description = "Compilador nativo del lenguaje de programación LMR"
 readme = "README.md"
 license = "MIT"
-homepage = "https://github.com/rootmac1/proyectolmr"
 repository = "https://github.com/rootmac1/proyectolmr"
 documentation = "https://github.com/rootmac1/proyectolmr#readme"
 keywords = ["compiler", "programming-language", "llvm"]
