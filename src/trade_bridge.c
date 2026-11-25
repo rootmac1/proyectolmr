@@ -17,11 +17,14 @@
 #include <io.h>
 #include <windows.h>
 #include <shellapi.h>
+#define LMR_STRNICMP _strnicmp
 #define POPEN _popen
 #define PCLOSE _pclose
 #else
 #include <pthread.h>
+#include <strings.h>
 #include <unistd.h>
+#define LMR_STRNICMP strncasecmp
 #define POPEN popen
 #define PCLOSE pclose
 #endif
@@ -1849,7 +1852,7 @@ static int lmr_csv_header_index(const LmrCsvRow *header, const char *name) {
     size_t length = strlen(field);
     while (length && (field[length - 1] == ' ' || field[length - 1] == '\t'))
       --length;
-    if (strlen(name) == length && _strnicmp(field, name, length) == 0)
+    if (strlen(name) == length && LMR_STRNICMP(field, name, length) == 0)
       return (int)i;
   }
   return -1;
@@ -2166,12 +2169,14 @@ static char *sj_http_get(const char *url, int *http_status) {
   char chunk[4096];while(fgets(chunk,sizeof(chunk),fp)){size_t n=strlen(chunk);if(len+n+1>cap){cap=(len+n+1)*2;char *b=(char *)realloc(buf,cap);if(!b){free(buf);PCLOSE(fp);if(http_status)*http_status=0;return NULL;}buf=b;}memcpy(buf+len,chunk,n);len+=n;}buf[len]=0;PCLOSE(fp);
   if(len>=3&&buf[len-1]=='\n')buf[--len]=0;int code=0;if(len>=3){code=atoi(buf+len-3);len-=3;if(len&&buf[len-1]=='\n')len--;buf[len]=0;}if(http_status)*http_status=code;return buf;
 }
+#ifdef _WIN32
 typedef struct { long long a,b; char *body; int status; HANDLE thread; } SetkaH2hFetch;
 static DWORD WINAPI sj_fetch_h2h_thread(LPVOID data) {
   SetkaH2hFetch *task=(SetkaH2hFetch *)data; char url[512];
   snprintf(url,sizeof(url),"https://tabletennis.setkacup.com/api/Players/en/compare?player1Id=%lld&player2Id=%lld",task->a,task->b);
   task->body=sj_http_get(url,&task->status); return 0;
 }
+#endif
 static int sj_save_match(void *db, SetkaJson *j, int m) {
   long long id=sj_num(j,sj_prop(j,m,"id")), status=sj_num(j,sj_prop(j,m,"statusId"));
   int p1=sj_prop(j,m,"player1"),p2=sj_prop(j,m,"player2");
