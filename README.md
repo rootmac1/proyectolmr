@@ -1,5 +1,7 @@
 # LMR
 
+[![CI](https://github.com/rootmac1/proyectolmr/actions/workflows/windows.yml/badge.svg?branch=main)](https://github.com/rootmac1/proyectolmr/actions/workflows/windows.yml)
+
 LMR es un lenguaje de programación de sintaxis estructurada y tipado estático. Su compilador está escrito en Rust y traduce programas LMR a LLVM IR; Clang produce el ejecutable nativo.
 
 > **Estado:** versión `0.1.0-alpha.10`. Es un proyecto en desarrollo. La sintaxis, el runtime y los módulos pueden cambiar; los paquetes portables están en fase preliminar y todavía no son una publicación estable.
