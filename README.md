@@ -69,10 +69,10 @@ Desde el checkout del repositorio, en Linux/macOS genera el paquete nativo con `
 Importa módulos desde los archivos del proyecto, por ejemplo:
 
 ```lmr
-from Math import raiz
+from Math import squareRoot
 
 begin
-    writeln(raiz(25.0))
+    writeln(squareRoot(25.0))
 end.
 ```
 

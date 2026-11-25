@@ -1,112 +1,112 @@
-func raiz(float x): float
+func squareRoot(float x): float
 begin
     return sqrt(x)
 end
 
-func potencia(float base, float exp): float
+func power(float base, float exponent): float
 begin
-    return pow(base, exp)
+    return pow(base, exponent)
 end
 
-func valorAbsoluto(float x): float
+func absoluteValue(float x): float
 begin
     return abs(x)
 end
 
-// Trigonometría. Los ángulos se expresan en radianes.
-func seno(float x): float
+// Trigonometry. Angles are expressed in radians.
+func sine(float x): float
 begin
     return sin(x)
 end
 
-func coseno(float x): float
+func cosine(float x): float
 begin
     return cos(x)
 end
 
-func tangente(float x): float
+func tangent(float x): float
 begin
     return tan(x)
 end
 
-func arcoSeno(float x): float
+func arcSine(float x): float
 begin
     return asin(x)
 end
 
-func arcoCoseno(float x): float
+func arcCosine(float x): float
 begin
     return acos(x)
 end
 
-func arcoTangente(float x): float
+func arcTangent(float x): float
 begin
     return atan(x)
 end
 
-func arcoTangente2(float y, float x): float
+func arcTangent2(float y, float x): float
 begin
     return atan2(y, x)
 end
 
-func gradosARadianes(float grados): float
+func degreesToRadians(float degrees): float
 begin
-    return grados * 3.141592653589793 / 180.0
+    return degrees * 3.141592653589793 / 180.0
 end
 
-func radianesAGrados(float radianes): float
+func radiansToDegrees(float radians): float
 begin
-    return radianes * 180.0 / 3.141592653589793
+    return radians * 180.0 / 3.141592653589793
 end
 
-// Exponenciales, logaritmos y redondeo.
-func exponencial(float x): float
+// Exponentials, logarithms, and rounding.
+func exponential(float x): float
 begin
     return exp(x)
 end
 
-func logNatural(float x): float
+func naturalLog(float x): float
 begin
     return log(x)
 end
 
-func logBase10(float x): float
+func log10Value(float x): float
 begin
     return log10(x)
 end
 
-func logBase(float x, float base): float
+func logarithm(float x, float base): float
 begin
     return log(x) / log(base)
 end
 
-func piso(float x): float
+func floorValue(float x): float
 begin
     return floor(x)
 end
 
-func techo(float x): float
+func ceiling(float x): float
 begin
     return ceil(x)
 end
 
-func redondear(float x): float
+func roundValue(float x): float
 begin
     return round(x)
 end
 
-func moduloReal(float x, float divisor): float
+func realModulo(float x, float divisor): float
 begin
     return fmod(x, divisor)
 end
 
-// Operaciones de uso frecuente.
-func hipotenusa(float x, float y): float
+// Commonly used operations.
+func hypotenuse(float x, float y): float
 begin
     return sqrt(x * x + y * y)
 end
 
-func valorMinimo(float a, float b): float
+func minimum(float a, float b): float
 begin
     if a < b then begin
         return a
@@ -116,7 +116,7 @@ begin
     end
 end
 
-func valorMaximo(float a, float b): float
+func maximum(float a, float b): float
 begin
     if a > b then begin
         return a
@@ -126,14 +126,14 @@ begin
     end
 end
 
-func limitar(float x, float minimo, float maximo): float
+func clamp(float x, float minimumValue, float maximumValue): float
 begin
-    if x < minimo then begin
-        return minimo
+    if x < minimumValue then begin
+        return minimumValue
     end
     else begin
-        if x > maximo then begin
-            return maximo
+        if x > maximumValue then begin
+            return maximumValue
         end
         else begin
             return x
@@ -141,12 +141,12 @@ begin
     end
 end
 
-func interpolar(float inicio, float fin, float t): float
+func interpolate(float start, float finish, float t): float
 begin
-    return inicio + (fin - inicio) * t
+    return start + (finish - start) * t
 end
 
-func signo(float x): int
+func sign(float x): int
 begin
     if x < 0.0 then begin
         return -1
@@ -161,10 +161,10 @@ begin
     end
 end
 
-func distancia2D(float x1, float y1, float x2, float y2): float
+func distance2D(float x1, float y1, float x2, float y2): float
 begin
     float dx, dy
     dx = x2 - x1
     dy = y2 - y1
-    return hipotenusa(dx, dy)
+    return hypotenuse(dx, dy)
 end

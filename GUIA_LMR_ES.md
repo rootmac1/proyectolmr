@@ -47,7 +47,7 @@ lmr --help
 El orden general es: importaciones opcionales, declaraciones globales (enum, record, extern, class y func) y, al final, un único bloque principal:
 
 ```lmr
-from Math import raiz
+from Math import squareRoot
 
 func doble(int n): int
 begin
@@ -256,11 +256,11 @@ La forma de concurrencia disponible es `spawn nombreFuncion()`. El parser actual
 | `contains(mapa, clave)` | Comprueba si existe una clave. |
 | `dispose(objeto)` | Liberación explícita de recurso administrado. |
 
-El módulo `Math` añade nombres en español como `raiz`, `potencia`, `seno`, `gradosARadianes`, `hipotenusa`, `limitar` y `interpolar`; importa solo los símbolos que uses: `from Math import raiz, potencia`.
+El módulo `Math` expone sus funciones con nombres en inglés, como `squareRoot`, `power`, `sine`, `degreesToRadians`, `hypotenuse`, `clamp` e `interpolate`; importa solo los símbolos que uses: `from Math import squareRoot, power`. El módulo separado `Matematicas` contiene ejemplos con nombres en español.
 
 ## 12. Módulos disponibles
 
-Los imports pueden ser `import Graphics` o `from Math import raiz`. El nombre con puntos se convierte en carpetas y nombre de archivo `.lmr`. El compilador busca primero desde la carpeta del programa (en `modules/` y luego como ruta directa), después en las rutas de `LMR_MODULE_PATH`, en la carpeta de módulos del usuario y, por último, en la distribución de LMR.
+Los imports pueden ser `import Graphics` o `from Math import squareRoot`. El nombre con puntos se convierte en carpetas y nombre de archivo `.lmr`. El compilador busca primero desde la carpeta del programa (en `modules/` y luego como ruta directa), después en las rutas de `LMR_MODULE_PATH`, en la carpeta de módulos del usuario y, por último, en la distribución de LMR.
 
 Para instalar módulos comunitarios manualmente, copia los archivos declarados por el paquete a `%LOCALAPPDATA%\LMR\modules` en Windows o a `$XDG_DATA_HOME/lmr/modules` / `~/.local/share/lmr/modules` en Linux/macOS. También puedes configurar rutas adicionales:
 
@@ -309,7 +309,7 @@ El compilador genera la declaración LLVM, pero no implementa esa función autom
 ## 15. Ejemplo completo
 
 ```lmr
-from Math import hipotenusa
+from Math import hypotenuse
 
 func clasificar(float nota): string
 begin
@@ -328,7 +328,7 @@ begin
     string estado
     x = 3.0
     y = 4.0
-    distancia = hipotenusa(x, y)
+    distancia = hypotenuse(x, y)
     estado = clasificar(distancia + 7.0)
     writeln("Distancia: " + floatToString(distancia))
     writeln("Resultado: " + estado)

@@ -15,11 +15,11 @@ Una extensión puede ser:
 
 ```lmr
 import Graphics
-from Math import raiz, potencia
+from Math import squareRoot, power
 
 begin
     float x
-    x = raiz(potencia(3.0, 2.0) + potencia(4.0, 2.0))
+    x = squareRoot(power(3.0, 2.0) + power(4.0, 2.0))
     writeln(x)
 end.
 ```

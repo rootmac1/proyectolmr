@@ -41,7 +41,7 @@
   },
   "Importar función matemática": {
     "prefix": "frommath",
-    "body": ["from Math import ${1:raiz}"],
+    "body": ["from Math import ${1:squareRoot}"],
     "description": "Importa símbolos del módulo Math"
   },
   "Clase": {
