@@ -369,6 +369,11 @@ fn compile_and_run_source(source_code: &str, output_exe: &Path) -> Result<(), St
         clang_cmd.arg("-lgdi32");
         clang_cmd.arg("-lshell32");
     }
+    #[cfg(not(target_os = "windows"))]
+    {
+        clang_cmd.arg("-pthread");
+        clang_cmd.arg("-lm");
+    }
 
     clang_cmd.arg("-o").arg(output_exe);
 
@@ -684,6 +689,7 @@ fn run_main() -> i32 {
     }
     #[cfg(not(target_os = "windows"))]
     {
+        clang_cmd.arg("-pthread");
         clang_cmd.arg("-lm");
     }
 
@@ -975,7 +981,7 @@ mod compiler_regression_tests {
                 "-lshell32",
             ]);
         } else {
-            clang.arg("-lm");
+            clang.args(["-pthread", "-lm"]);
         }
         let compile = clang
             .arg("-o")

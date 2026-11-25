@@ -9,6 +9,7 @@ Los cambios de cada versión se resumen aquí. LMR sigue en fase alpha; el regis
 - Permite que el instalador de Windows modifique solo el PATH del proceso para pruebas y automatización; el smoke test comprueba ese modo sin alterar el perfil de usuario.
 - Añade empaquetado VSIX para la extensión de lenguaje y el tema de iconos, con extracción de notas de versión en release.
 - Declara Rust 1.85 como versión mínima requerida por Edition 2024.
+- Enlaza explícitamente POSIX threads al compilar y ejecutar programas LMR en Linux/macOS.
 - Hace que el empaquetador de Windows valide el target y etiquete el paquete con su arquitectura.
 - Añade desinstaladores para Windows y Unix que retiran solo la versión indicada y su entrada de PATH/lanzador correspondiente.
 - Corrige las actualizaciones de Windows/Unix para seleccionar la nueva versión en PATH o en el lanzador sin borrar instalaciones anteriores ni reemplazar comandos ajenos.

@@ -5,6 +5,7 @@ const { validatePackageFiles } = require("./validate-crate-package.js");
 const validFiles = [
   "Cargo.toml",
   "Cargo.toml.orig",
+  ".cargo_vcs_info.json",
   "LICENSE",
   "README.md",
   "build.rs",

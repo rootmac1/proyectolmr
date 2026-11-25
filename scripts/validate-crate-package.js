@@ -4,6 +4,7 @@ const path = require("node:path");
 const rootFiles = new Set([
   "CHANGELOG.md",
   "CONTRIBUTING.md",
+  ".cargo_vcs_info.json",
   "Cargo.lock",
   "Cargo.toml",
   "Cargo.toml.orig",
