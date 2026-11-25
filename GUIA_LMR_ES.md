@@ -281,7 +281,6 @@ Si agregas varias rutas, sepáralas con `;` en Windows o `:` en Linux/macOS. Cad
 | `Graphics` | Ventana 2D, dibujo, texto, tabla y texto desplazable. |
 | `SQLite` | Clases `Database` y `Cursor` sobre SQLite. |
 | `Trade` | Funciones del puente de trading del proyecto. |
-| `Setka` | Refresco/lectura de datos Setka mediante puente nativo. |
 | `ReportArgs` | Lectura de parámetros de informe desde el runtime. |
 | `Bet365` | Importación de CSV Bet365 hacia SQLite. |
 

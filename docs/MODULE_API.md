@@ -62,7 +62,7 @@ Cada símbolo externo debe tener una sola declaración con firma exacta. Para co
 
 No asumas que el enlazador encontrará una función solo porque está declarada en LMR. Si la implementación no está enlazada, el ejecutable puede fallar al enlazar.
 
-Los puentes de red de `Trade` y `Setka` invocan `curl`. Para evitar que una URL se interprete como sintaxis del shell, el puente acepta únicamente URLs ASCII en minúsculas con esquema `http`/`https` para HTTP y `ws`/`wss` para WebSocket; rechaza credenciales en la autoridad, caracteres de control, comillas, expansiones de shell, `%` y URLs de más de 1800 caracteres. Usa rutas y parámetros ASCII sin codificar porcentajes. Las llamadas HTTP limitan los esquemas de redirección a HTTP(S); no se debe pasar una URL recibida de una fuente no confiable sin validarla.
+El puente de red de `Trade` invoca `curl`. Para evitar que una URL se interprete como sintaxis del shell, el puente acepta únicamente URLs ASCII en minúsculas con esquema `http`/`https` para HTTP y `ws`/`wss` para WebSocket; rechaza credenciales en la autoridad, caracteres de control, comillas, expansiones de shell, `%` y URLs de más de 1800 caracteres. Usa rutas y parámetros ASCII sin codificar porcentajes. Las llamadas HTTP limitan los esquemas de redirección a HTTP(S); no se debe pasar una URL recibida de una fuente no confiable sin validarla.
 
 ## Crear un módulo comunitario
 

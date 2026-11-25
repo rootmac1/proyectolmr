@@ -144,22 +144,6 @@
       "native_bindings": ["lmr_http_get","lmr_ws_connect","lmr_ws_read","lmr_ws_close","lmr_json_get_number","lmr_set_crypto_price","lmr_get_crypto_price"]
     },
     {
-      "id": "Setka",
-      "file": "Setka.lmr",
-      "summary": "Helpers para refrescar datos de Setka y extraer marcadores de sets.",
-      "category": "sports-data",
-      "status": "experimental",
-      "platforms": ["windows"],
-      "dependencies": ["Puente nativo Setka del proyecto", "Acceso a red y base de datos según la función"],
-      "exports": [
-        {"kind":"function","name":"refreshToday","signature":"refreshToday(string db_path): int"},
-        {"kind":"function","name":"chooseDatabase","signature":"chooseDatabase(string preferred, string fallback): string"},
-        {"kind":"function","name":"setTotal","signature":"setTotal(string p1_json, string p2_json, int set_index): int"},
-        {"kind":"function","name":"setPoint","signature":"setPoint(string sets_json, int set_index): int"}
-      ],
-      "native_bindings": ["lmr_setka_refresh_today","lmr_set_total","lmr_set_point","lmr_setka_choose_db"]
-    },
-    {
       "id": "ReportArgs",
       "file": "ReportArgs.lmr",
       "summary": "Acceso a fechas, horas, modo compuesto y stakes recibidos por el runtime del informe.",

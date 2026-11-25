@@ -13,7 +13,7 @@ Repositorio y guía del proyecto: [GitHub](https://github.com/rootmac1/proyectol
 - Rust estable con soporte para la edición 2024 (Rust 1.85 o posterior).
 - Clang accesible como `clang` desde `PATH`, para enlazar programas LMR.
 - En Windows, las bibliotecas del toolchain que usa el enlace del proyecto. Para incrustar el icono durante la compilación también se recomienda `llvm-rc`; sin él, el build puede continuar sin el icono.
-- `curl` debe estar disponible en `PATH` si el programa usa módulos de red como `Trade` o `Setka`.
+- `curl` debe estar disponible en `PATH` si el programa usa módulos de red como `Trade`.
 
 ## Compilar el compilador
 
