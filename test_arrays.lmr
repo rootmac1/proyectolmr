@@ -1,0 +1,45 @@
+begin
+    array[int] numeros
+    array[string] nombres
+    int tamano, primer_numero
+
+    // 1. Inicialización con literales
+    numeros = [10, 20, 30, 40]
+    nombres = ["Ana", "Luis", "Carlos"]
+
+    // 2. Consulta de longitud con len()
+    tamano = len(numeros)
+    write("Longitud del arreglo numeros: ")
+    writeln(tamano)
+
+    write("Longitud del arreglo nombres: ")
+    writeln(len(nombres))
+
+    // 3. Lectura por índice base 0
+    primer_numero = numeros[0]
+    write("Primer numero: ")
+    writeln(primer_numero)
+
+    write("Segundo nombre: ")
+    writeln(nombres[1])
+
+    // 4. Modificación por índice
+    numeros[0] = 99
+    numeros[3] = 500
+    write("Numeros modificados en indices 0 y 3: ")
+    write(numeros[0])
+    write(", ")
+    writeln(numeros[3])
+
+    // 5. Creación con tamaño inicial dinámico (new array)
+    array[int] buffer
+    buffer = new array[int](3)
+    buffer[0] = 100
+    buffer[1] = 200
+    buffer[2] = 300
+
+    write("Elemento buffer[1]: ")
+    write(buffer[1])
+    write(" | Longitud total buffer: ")
+    writeln(len(buffer))
+end.

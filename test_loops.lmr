@@ -1,0 +1,31 @@
+begin
+    // 1. Probar bucle while
+    writeln("--- 1. Bucle WHILE ---")
+    int contador
+    contador = 1
+    while contador <= 3 do
+    begin
+        write("Contador while: ")
+        writeln(contador)
+        contador = contador + 1
+    end
+
+    // 2. Probar bucle for clasico (for range)
+    writeln("--- 2. Bucle FOR RANGE (to) ---")
+    for i = 1 to 4 do
+    begin
+        write("Iteracion for: ")
+        writeln(i)
+    end
+
+    // 3. Probar bucle for in con arreglos dinamicos
+    writeln("--- 3. Bucle FOR IN con arreglo ---")
+    array[string] lenguajes
+    lenguajes = ["Pascal", "Rust", "LMR", "C++"]
+
+    for lang in lenguajes do
+    begin
+        write("Lenguaje iterado: ")
+        writeln(lang)
+    end
+end.

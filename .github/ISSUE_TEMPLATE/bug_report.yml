@@ -1,0 +1,58 @@
+name: Reportar un error
+description: Informa un fallo reproducible del compilador, runtime, módulos o herramientas.
+title: "[Error]: "
+labels:
+  - bug
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Antes de reportar, comprueba si ya existe un issue similar. No incluyas contraseñas, tokens ni datos personales.
+  - type: input
+    id: version
+    attributes:
+      label: Versión de LMR
+      description: Indica el resultado de `lmr --version` o el commit utilizado.
+      placeholder: 0.1.0-alpha.10
+    validations:
+      required: true
+  - type: dropdown
+    id: os
+    attributes:
+      label: Sistema operativo
+      options:
+        - Windows
+        - Linux
+        - macOS
+        - Otro
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Pasos para reproducirlo
+      description: Incluye los comandos ejecutados y un programa LMR mínimo si corresponde.
+      render: text
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Resultado esperado
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Resultado obtenido
+      description: Pega el mensaje de error completo y la salida de terminal relevante.
+      render: text
+    validations:
+      required: true
+  - type: textarea
+    id: environment
+    attributes:
+      label: Entorno adicional
+      description: Versión de Rust/Clang, módulo involucrado y cualquier dato que ayude a reproducirlo.
+    validations:
+      required: false

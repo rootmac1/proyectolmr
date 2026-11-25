@@ -1,0 +1,26 @@
+// Módulo estándar de Consola de LMR
+// Utiliza Códigos ANSI devueltos mediante funciones
+
+func RESET(): string begin return "\e[0m" end
+func BOLD(): string begin return "\e[1m" end
+
+// Colores de texto (Foreground)
+func RED(): string begin return "\e[31m" end
+func GREEN(): string begin return "\e[32m" end
+func YELLOW(): string begin return "\e[33m" end
+func BLUE(): string begin return "\e[34m" end
+func MAGENTA(): string begin return "\e[35m" end
+func CYAN(): string begin return "\e[36m" end
+func WHITE(): string begin return "\e[37m" end
+
+// Colores de fondo (Background)
+func BG_RED(): string begin return "\e[41m" end
+func BG_GREEN(): string begin return "\e[42m" end
+func BG_YELLOW(): string begin return "\e[43m" end
+func BG_BLUE(): string begin return "\e[44m" end
+
+func clearScreen()
+begin
+    // Limpia la pantalla y pone el cursor arriba a la izquierda
+    write("\e[2J\e[H")
+end

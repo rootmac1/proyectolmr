@@ -1,0 +1,5 @@
+from Greeter import greet
+
+begin
+    writeln(greet("LMR community"))
+end.

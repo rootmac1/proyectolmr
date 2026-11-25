@@ -1,0 +1,25 @@
+// Sincronizacion nativa con la API publica de Setka Cup.
+extern func lmr_setka_refresh_today(string db_path): int
+extern func lmr_set_total(string p1_json, string p2_json, int set_index): int
+extern func lmr_set_point(string sets_json, int set_index): int
+extern func lmr_setka_choose_db(string preferred, string fallback): string
+
+func refreshToday(string db_path): int
+begin
+    return lmr_setka_refresh_today(db_path)
+end
+
+func chooseDatabase(string preferred, string fallback): string
+begin
+    return lmr_setka_choose_db(preferred, fallback)
+end
+
+func setTotal(string p1_json, string p2_json, int set_index): int
+begin
+    return lmr_set_total(p1_json, p2_json, set_index)
+end
+
+func setPoint(string sets_json, int set_index): int
+begin
+    return lmr_set_point(sets_json, set_index)
+end

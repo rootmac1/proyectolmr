@@ -1,0 +1,70 @@
+// 1. Declarar función nativa externa de C (FFI)
+extern func puts(string texto): int
+
+// 2. Definición de Enumeración
+enum Estado begin
+    Inactivo,
+    Activo,
+    Suspendido
+end
+
+// 3. Clase Base
+class Persona
+begin
+    string nombre
+
+    func constructor(string n)
+    begin
+        nombre = n
+    end
+
+    func presentarse()
+    begin
+        writeln("Persona: Mi nombre es " + nombre)
+    end
+end
+
+// 4. Herencia con 'extends'
+class Empleado extends Persona
+begin
+    float salario
+
+    func constructor(string n, float s)
+    begin
+        nombre = n
+        salario = s
+    end
+
+    func reportarTrabajo()
+    begin
+        // Accede a 'nombre' heredado y a su propio 'salario'
+        writeln("Empleado: " + nombre + " reportandose. Salario: ", salario)
+    end
+end
+
+begin
+    writeln("--- 1. PROBANDO ENUMS ---")
+    int estado_actual
+    estado_actual = Activo
+
+    if estado_actual == Activo then
+    begin
+        writeln("El estado de la cuenta es ACTIVO")
+    end
+
+    writeln("--- 2. PROBANDO HERENCIA EN OOP ---")
+    Empleado emp
+    emp = new Empleado("Luis Munayco", 6500.0)
+
+    // Llama al método heredado de Persona
+    emp.presentarse()
+
+    // Llama al método propio de Empleado
+    emp.reportarTrabajo()
+
+    writeln("--- 3. PROBANDO FFI CON C ---")
+    // Invoca directamente la función puts() de la librería estándar de C
+    puts("Mensaje impreso a traves de puts() de C!")
+
+    dispose(emp)
+end.

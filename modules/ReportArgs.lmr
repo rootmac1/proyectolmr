@@ -1,0 +1,16 @@
+// Opciones del informe expuestas por el puente nativo de LMR.
+extern func lmr_report_start_date(): string
+extern func lmr_report_end_date(): string
+extern func lmr_report_start_time(): string
+extern func lmr_report_end_time(): string
+extern func lmr_report_compound(): int
+extern func lmr_report_stake_over(): float
+extern func lmr_report_stake_under(): float
+
+func reportStartDate(): string begin return lmr_report_start_date() end
+func reportEndDate(): string begin return lmr_report_end_date() end
+func reportStartTime(): string begin return lmr_report_start_time() end
+func reportEndTime(): string begin return lmr_report_end_time() end
+func reportCompound(): int begin return lmr_report_compound() end
+func reportStakeOver(): float begin return lmr_report_stake_over() end
+func reportStakeUnder(): float begin return lmr_report_stake_under() end

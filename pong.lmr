@@ -1,0 +1,161 @@
+from Graphics import initWindow, windowShouldClose, beginDrawing, clearBackground, drawRectangle, drawText, endDrawing, closeWindow, isKeyDown, KEY_W, KEY_S, KEY_UP, KEY_DOWN
+
+begin
+    // 1. Iniciar ventana retro de 800x500
+    initWindow(800, 500, "LMR Retro Pong 1972")
+
+    // Variables de Paleta 1 (Jugador 1)
+    int p1_x, p1_y, p1_w, p1_h
+    p1_x = 30
+    p1_y = 200
+    p1_w = 15
+    p1_h = 80
+
+    // Variables de Paleta 2 (Jugador 2 / IA)
+    int p2_x, p2_y, p2_w, p2_h
+    p2_x = 755
+    p2_y = 200
+    p2_w = 15
+    p2_h = 80
+
+    // Variables de la Pelota
+    int ball_x, ball_y, ball_size, ball_vx, ball_vy
+    ball_x = 394
+    ball_y = 244
+    ball_size = 14
+    ball_vx = 6
+    ball_vy = 4
+
+    // Marcador
+    int score1, score2
+    score1 = 0
+    score2 = 0
+
+    // 2. Game Loop a 60 FPS
+    while not windowShouldClose() do
+    begin
+        // --- CONTROL JUGADOR 1 (W y S) ---
+        if isKeyDown(KEY_W()) and (p1_y > 10) then
+        begin
+            p1_y = p1_y - 7
+        end
+        if isKeyDown(KEY_S()) and (p1_y < 410) then
+        begin
+            p1_y = p1_y + 7
+        end
+
+        // --- CONTROL JUGADOR 2 (Humano con Flechas o IA Automática) ---
+        if isKeyDown(KEY_UP()) and (p2_y > 10) then
+        begin
+            p2_y = p2_y - 7
+        end
+        else
+        begin
+            if isKeyDown(KEY_DOWN()) and (p2_y < 410) then
+            begin
+                p2_y = p2_y + 7
+            end
+            else
+            begin
+                // Si nadie toca las flechas, la paleta 2 es controlada por IA
+                if (ball_y > p2_y + 35) and (p2_y < 410) then
+                begin
+                    p2_y = p2_y + 5
+                end
+                if (ball_y < p2_y + 35) and (p2_y > 10) then
+                begin
+                    p2_y = p2_y - 5
+                end
+            end
+        end
+
+        // --- FÍSICA DE LA PELOTA ---
+        ball_x = ball_x + ball_vx
+        ball_y = ball_y + ball_vy
+
+        // Rebote en Techo y Suelo
+        if (ball_y <= 10) or (ball_y >= 476) then
+        begin
+            ball_vy = 0 - ball_vy
+        end
+
+        // Colisión con Paleta 1 (Izquierda) -> Invierte a velocidad positiva
+        if (ball_x <= p1_x + p1_w) and (ball_x >= p1_x) then
+        begin
+            if (ball_y + ball_size >= p1_y) and (ball_y <= p1_y + p1_h) then
+            begin
+                if ball_vx < 0 then
+                begin
+                    ball_vx = 0 - ball_vx
+                end
+                ball_x = p1_x + p1_w + 1
+            end
+        end
+
+        // Colisión con Paleta 2 (Derecha) -> Invierte a velocidad negativa
+        if (ball_x + ball_size >= p2_x) and (ball_x <= p2_x + p2_w) then
+        begin
+            if (ball_y + ball_size >= p2_y) and (ball_y <= p2_y + p2_h) then
+            begin
+                if ball_vx > 0 then
+                begin
+                    ball_vx = 0 - ball_vx
+                end
+                ball_x = p2_x - ball_size - 1
+            end
+        end
+
+        // --- SISTEMA DE PUNTUACIÓN Y RESET ---
+        // Punto para Jugador 2 (Pelota salió por la izquierda)
+        if ball_x < 0 then
+        begin
+            score2 = score2 + 1
+            ball_x = 394
+            ball_y = 244
+            ball_vx = 6
+        end
+
+        // Punto para Jugador 1 (Pelota salió por la derecha)
+        if ball_x > 800 then
+        begin
+            score1 = score1 + 1
+            ball_x = 394
+            ball_y = 244
+            ball_vx = 0 - 6
+        end
+
+        // --- RENDERIZADO VISUAL RETRO ---
+        beginDrawing()
+
+        // Fondo negro arcade
+        clearBackground(15, 18, 24)
+
+        // Línea central divisoria punteada
+        for i = 0 to 15 do
+        begin
+            drawRectangle(398, i * 32 + 8, 4, 16, 50, 65, 80)
+        end
+
+        // Marcadores
+        drawText(intToString(score1), 310, 30, 48, 255, 255, 255)
+        drawText(intToString(score2), 450, 30, 48, 255, 255, 255)
+
+        // Leyenda de controles
+        drawText("P1: [W / S] | P2: [Flechas] o IA Automatica", 230, 465, 14, 120, 135, 150)
+
+        // Paleta 1 (Verde)
+        drawRectangle(p1_x, p1_y, p1_w, p1_h, 38, 166, 154)
+
+        // Paleta 2 (Rojo)
+        drawRectangle(p2_x, p2_y, p2_w, p2_h, 239, 83, 80)
+
+        // Pelota blanca brillante
+        drawRectangle(ball_x, ball_y, ball_size, ball_size, 255, 255, 255)
+
+        endDrawing()
+    end
+
+    // 3. Salir limpiamente
+    closeWindow()
+    writeln("Juego terminado. Marcador final: ", score1, " - ", score2)
+end.

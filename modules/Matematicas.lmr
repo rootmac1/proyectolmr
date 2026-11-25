@@ -1,0 +1,15 @@
+func duplicar(int n): int
+begin
+    return n * 2
+end
+
+func calcularPotencia(int base, int exp): int
+begin
+    int resultado
+    resultado = 1
+    for i = 1 to exp do
+    begin
+        resultado = resultado * base
+    end
+    return resultado
+end

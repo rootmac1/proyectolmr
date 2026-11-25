@@ -1,0 +1,86 @@
+// ============================================================
+// 1. CLASES POLIMÓRFICAS (VTABLE DYNAMIC DISPATCH)
+// ============================================================
+class Animal
+begin
+    string nombre
+
+    func constructor(string n)
+    begin
+        nombre = n
+    end
+
+    func emitirSonido()
+    begin
+        writeln(nombre + " hace un sonido generico.")
+    end
+end
+
+class Perro extends Animal
+begin
+    func constructor(string n)
+    begin
+        nombre = n
+    end
+
+    // ¡Sobrescritura virtual dinámica!
+    override func emitirSonido()
+    begin
+        writeln(nombre + " ladra con fuerza: Guau, guau!")
+    end
+end
+
+class Gato extends Animal
+begin
+    func constructor(string n)
+    begin
+        nombre = n
+    end
+
+    // ¡Sobrescritura virtual dinámica!
+    override func emitirSonido()
+    begin
+        writeln(nombre + " maulla suavemente: Miau, miau!")
+    end
+end
+
+// Función que recibe la clase BASE pero ejecuta el método del HIJO
+func activarSonido(Animal a)
+begin
+    a.emitirSonido()
+end
+
+begin
+    writeln("================================================")
+    writeln("          LMR - FASE 15 POLIMORFISMO Y JSON     ")
+    writeln("================================================")
+
+    // --- PRUEBA 1: VTABLES Y DESPACHO DINÁMICO ---
+    writeln("\n--- 1. POLIMORFISMO DINAMICO (VTABLES EN LLVM) ---")
+    Animal a1, a2
+
+    // Las variables son de tipo 'Animal', pero reciben instancias derivadas
+    a1 = new Perro("Firulais")
+    a2 = new Gato("Michi")
+
+    // Invocamos la función con polimorfismo dinámico
+    activarSonido(a1)
+    activarSonido(a2)
+
+    // --- PRUEBA 2: PARSER JSON COMPLETO ---
+    writeln("\n--- 2. PARSER JSON COMPLETO (jsonParse -> map) ---")
+    string json_texto
+    map[string, string] data
+
+    json_texto = "{\"exchange\":\"Binance\",\"simbolo\":\"BTCUSDT\",\"precio\":\"84250.50\",\"estado\":\"ACTIVO\"}"
+    data = jsonParse(json_texto)
+
+    writeln("Exchange: " + data["exchange"])
+    writeln("Simbolo:  " + data["simbolo"])
+    writeln("Precio:   $" + data["precio"])
+    writeln("Estado:   " + data["estado"])
+
+    dispose(a1)
+    dispose(a2)
+    dispose(data)
+end.

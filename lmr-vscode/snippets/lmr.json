@@ -1,0 +1,62 @@
+{
+  "Programa principal": {
+    "prefix": "programa",
+    "body": [
+      "begin",
+      "    $0",
+      "end."
+    ],
+    "description": "Esqueleto de un programa LMR"
+  },
+  "Función tipada": {
+    "prefix": "func",
+    "body": [
+      "func ${1:nombre}(${2:int valor}): ${3:int}",
+      "begin",
+      "    $0",
+      "    return ${4:valor}",
+      "end"
+    ],
+    "description": "Declara una función que devuelve un valor"
+  },
+  "Condicional": {
+    "prefix": "if",
+    "body": [
+      "if ${1:condicion} then",
+      "begin",
+      "    $0",
+      "end"
+    ],
+    "description": "Bloque if/then"
+  },
+  "Bucle while": {
+    "prefix": "while",
+    "body": [
+      "while ${1:condicion} do",
+      "begin",
+      "    $0",
+      "end"
+    ],
+    "description": "Bucle while/do"
+  },
+  "Importar función matemática": {
+    "prefix": "frommath",
+    "body": ["from Math import ${1:raiz}"],
+    "description": "Importa símbolos del módulo Math"
+  },
+  "Clase": {
+    "prefix": "class",
+    "body": [
+      "class ${1:Nombre}",
+      "begin",
+      "    ${2:string nombre}",
+      "",
+      "    func constructor(${3:string valor})",
+      "    begin",
+      "        nombre = valor",
+      "    end",
+      "end"
+    ],
+    "description": "Declara una clase sencilla"
+  }
+}

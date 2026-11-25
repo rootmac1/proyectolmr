@@ -1,0 +1,30 @@
+begin
+    string nombre, apellido, nombre_completo, saludo
+    int longitud
+
+    nombre = "Luis"
+    apellido = "Munayco"
+
+    // 1. Concatenación nativa con '+'
+    nombre_completo = nombre + " " + apellido
+    saludo = "Bienvenido a LMR, " + nombre_completo + "!"
+    writeln(saludo)
+
+    // 2. Longitud nativa con 'len()'
+    longitud = len(nombre_completo)
+    write("Longitud de '")
+    write(nombre_completo)
+    write("': ")
+    writeln(longitud)
+
+    // 3. Comparación real de texto con '==' y '!='
+    if nombre == "Luis" then
+    begin
+        writeln("Comparacion '==': Nombre coincide exactamente.")
+    end
+
+    if apellido != "Perez" then
+    begin
+        writeln("Comparacion '!=': Apellido es diferente de Perez.")
+    end
+end.

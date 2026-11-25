@@ -1,0 +1,25 @@
+import Math
+
+func duplicar(int n): int
+begin
+    return n * 2
+end
+
+begin
+    const float GRAVEDAD = 9.81
+    int numero, resultado
+
+    numero = 25
+    resultado = duplicar(numero)
+
+    write("Constante gravedad: ")
+    writeln(GRAVEDAD)
+
+    write("El doble de ", numero)
+    writeln(" es: ", resultado)
+
+    if resultado > 40 then
+    begin
+        writeln("El resultado supero el umbral de 40!")
+    end
+end.

@@ -1,0 +1,69 @@
+from SQLite import Database, Cursor
+
+begin
+    writeln("================================================")
+    writeln("       LMR SQLITE DATABASE DRIVER v1.0          ")
+    writeln("================================================")
+
+    Database db
+    db = new Database()
+
+    write("Conectando a SQLite (partidos_setka.db)... ")
+    if db.connect("partidos_setka.db") then
+    begin
+        writeln("[OK]")
+    end
+    else
+    begin
+        writeln("[FALLO] No se pudo abrir la base de datos.")
+    end
+
+    // 1. Crear tabla si no existe
+    writeln("-> Creando tabla 'partidos'...")
+    db.execute("CREATE TABLE IF NOT EXISTS partidos (id INTEGER PRIMARY KEY AUTOINCREMENT, fecha TEXT, hora TEXT, jugador_1 TEXT, jugador_2 TEXT, score_p1 INT, score_p2 INT, cuota REAL);")
+
+    // 2. Insertar partidos de prueba
+    writeln("-> Insertando partidos en la base de datos...")
+    db.execute("INSERT INTO partidos (fecha, hora, jugador_1, jugador_2, score_p1, score_p2, cuota) VALUES ('06/11/2026', '14:30', 'Kravchenko V.', 'Polishchuk O.', 3, 1, 1.83);")
+    db.execute("INSERT INTO partidos (fecha, hora, jugador_1, jugador_2, score_p1, score_p2, cuota) VALUES ('06/11/2026', '15:00', 'Gaponov O.', 'Yushko O.', 2, 3, 1.95);")
+    db.execute("INSERT INTO partidos (fecha, hora, jugador_1, jugador_2, score_p1, score_p2, cuota) VALUES ('06/11/2026', '15:30', 'Kovalchuk B.', 'Tkachenko E.', 3, 0, 1.65);")
+
+    // 3. Consultar datos con SELECT (idéntico a Python)
+    writeln("\n--- PARTIDOS REGISTRADOS EN SQLITE ---")
+    Cursor cur
+    cur = db.query("SELECT id, hora, jugador_1, jugador_2, score_p1, score_p2, cuota FROM partidos;")
+
+    string j1, j2, hora
+    int id, s1, s2
+    float cuota
+
+    while cur.next() do
+    begin
+        id = cur.getInt(0)
+        hora = cur.getString(1)
+        j1 = cur.getString(2)
+        j2 = cur.getString(3)
+        s1 = cur.getInt(4)
+        s2 = cur.getInt(5)
+        cuota = cur.getFloat(6)
+
+        write("#")
+        write(id)
+        write(" [")
+        write(hora)
+        write("] ")
+        write(j1)
+        write(" vs ")
+        write(j2)
+        write(" | Marcador: ")
+        write(s1)
+        write("-")
+        write(s2)
+        write(" | Cuota: ")
+        writeln(cuota)
+    end
+
+    writeln("\nConsulta completada. Cerrando base de datos...")
+    cur.close()
+    db.close()
+end.

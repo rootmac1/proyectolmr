@@ -1,0 +1,145 @@
+name: Compiler checks and portable package
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  msrv:
+    name: Minimum Rust version (1.85)
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v7
+
+      - name: Install minimum supported Rust
+        uses: dtolnay/rust-toolchain@1.85.0
+
+      - name: Check compiler with the minimum Rust version
+        run: cargo check --locked
+
+  editor-packages:
+    name: Package editor extensions
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v7
+
+      - name: Set up Node.js for VSIX packaging
+        uses: actions/setup-node@v7
+        with:
+          node-version: 22
+
+      - name: Package and inspect both VSIX files
+        run: |
+          output_dir="$(mktemp -d)"
+          trap 'rm -rf "$output_dir"' EXIT
+          bash scripts/package-extensions.sh "$output_dir"
+
+  compiler:
+    name: ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [windows-latest, ubuntu-latest, macos-latest]
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v7
+
+      - name: Install stable Rust
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          components: rustfmt
+
+      - name: Ensure Clang is available
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: |
+          if (-not (Get-Command clang -ErrorAction SilentlyContinue)) {
+            choco install llvm --yes --no-progress
+            $llvmBin = Join-Path $env:ProgramFiles "LLVM\bin"
+            if (Test-Path -LiteralPath (Join-Path $llvmBin "clang.exe")) {
+              $env:Path = $llvmBin + ";" + $env:Path
+              if ($env:GITHUB_PATH) { Add-Content -LiteralPath $env:GITHUB_PATH -Value $llvmBin }
+            }
+          }
+          clang --version
+
+      - name: Install Clang on Linux
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install --yes clang
+
+      - name: Confirm Clang on macOS
+        if: runner.os == 'macOS'
+        run: clang --version
+
+      - name: Check formatting
+        run: cargo fmt --all -- --check
+
+      - name: Validate module catalog
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: .\scripts\validate-module-manifest.ps1
+
+      - name: Run compiler tests
+        run: cargo test --locked
+
+      - name: Check the sample program through the CLI
+        run: cargo run -- check demo.lmr
+
+      - name: Install Node.js for editor tooling
+        uses: actions/setup-node@v7
+        with:
+          node-version: 20
+
+      - name: Verify crate contents and packaged build
+        run: |
+          node --test scripts/validate-crate-package.test.js
+          node scripts/validate-crate-package.js
+          cargo package --locked
+
+      - name: Test editor formatter
+        run: node --test lmr-vscode/test/formatter.test.js scripts/validate-release-metadata.test.js scripts/extract-release-notes.test.js
+
+      - name: Validate release metadata
+        run: node scripts/validate-release-metadata.js
+
+      - name: Validate community module package contract
+        run: |
+          node --test scripts/validate-module-package.test.js
+          node scripts/validate-module-package.js examples/community
+          cargo run -- check examples/community/demo.lmr
+
+      - name: Build portable ZIP
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: .\scripts\package-windows.ps1
+
+      - name: Build portable tarball
+        if: runner.os != 'Windows'
+        run: bash scripts/package-unix.sh
+
+      - name: Run portable package smoke check
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: |
+          $archive = Get-ChildItem .\dist\lmr-*-windows-x86_64.zip | Sort-Object LastWriteTime -Descending | Select-Object -First 1 -ExpandProperty FullName
+          if (-not $archive) { throw "No se encontró el ZIP generado" }
+          .\scripts\smoke-portable-windows.ps1 -Archive $archive
+
+      - name: Run portable package smoke check on Unix
+        if: runner.os != 'Windows'
+        run: |
+          set -- dist/lmr-*-*.tar.gz
+          test -f "$1"
+          bash scripts/smoke-portable-unix.sh "$1"

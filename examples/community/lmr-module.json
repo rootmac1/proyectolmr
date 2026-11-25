@@ -1,0 +1,17 @@
+{
+  "schema_version": "1.0.0",
+  "package": {
+    "name": "Greeter",
+    "version": "0.1.0",
+    "summary": "A small pure-LMR greeting module.",
+    "license": "MIT",
+    "minimum_lmr_version": "0.1.0",
+    "platforms": ["all"]
+  },
+  "files": ["Greeter.lmr"],
+  "dependencies": [],
+  "exports": [
+    {"kind": "function", "name": "greet", "signature": "greet(string name): string"}
+  ],
+  "native_bindings": []
+}

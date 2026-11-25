@@ -1,0 +1,17 @@
+# Hoja de ruta para publicar LMR
+
+Seguimiento del trabajo para pasar del checkout actual a una distribución que la comunidad pueda instalar y mantener.
+
+| Etapa | Estado | Alcance |
+|---|---|---|
+| 1. Identidad y versión inicial | Preliminar | MIT, `0.1.0-alpha.10`, README, changelog, requisitos mínimos en Cargo y política inicial de versión. El crate enlaza al repositorio `rootmac1/proyectolmr` y tiene una lista blanca de archivos para no incluir datos, binarios ni artefactos locales. |
+| 2. Empaquetado portable de Windows | Preliminar validado localmente | ZIP con compilador, módulos, puente, docs, instalador/desinstalador por usuario, notas de versión y ejemplo/contrato de paquete comunitario; el empaquetador valida el target y usa su arquitectura en el nombre. Smoke local verifica ejecución, instalación, actualización del PATH y desinstalación fuera del checkout. La prueba de PATH de usuario queda para el runner de CI, porque el entorno local bloquea escrituras al registro. Requiere Clang externo. |
+| 3. Calidad y CI | Preliminar | Pasan 22 pruebas Rust y 19 de Node, incluyendo 4 de inventario del crate (regresión nativa de URLs, formateador, contrato comunitario, versiones, notas y exclusión de archivos privados); `cargo package --locked --allow-dirty` verifica el crate de 39 archivos y su compilación, y el inventario confirma que no incluye datos, ejecutables ni `dist/`; el smoke Windows valida ZIP, instalación, `check`, códigos de salida y objetos. CI exige validación de contenido y compilación del crate, además del MSRV declarado (Rust 1.85). CI y release están configurados para Windows/Linux/macOS; faltan resultados remotos y ampliar cobertura del runtime/módulos. |
+| 4. Instalación y portabilidad | Preliminar | Instaladores/desinstaladores y empaquetadores preliminares para Windows/Linux/macOS; Windows pasó smoke local. El smoke Unix incluye actualización del lanzador y protección de comandos ajenos, pendiente de ejecución en CI remoto. El módulo gráfico y SQLite siguen limitados a Windows. |
+| 5. Herramientas de desarrollo | Preliminar | Extensión VS Code con resaltado, snippets, completado, diagnósticos con `lmr check --stdin` y formato `begin/end`; tema de iconos para `.lmr`. CI y release empaquetan e inspeccionan VSIX separados para ambos. Language server dedicado y depurador quedan pendientes. |
+| 6. Módulos comunitarios | Preliminar | Catálogo del núcleo sincronizado con el editor, esquema `lmr-module.json`, validador con pruebas, ejemplo de paquete y búsqueda por carpeta de usuario/`LMR_MODULE_PATH`. Hay formularios de GitHub para reportes y propuestas, además de una plantilla de pull request. La instalación del paquete sigue siendo manual; no hay registro ni resolución automática de dependencias, y las versiones aún no garantizan compatibilidad ABI. |
+| 7. Publicación estable | Preliminar | Workflow de releases por etiqueta compila y adjunta paquetes Windows/Linux/macOS, VSIX, sumas SHA-256 y notas específicas del changelog; valida la etiqueta contra Cargo. Falta ejecutar el flujo en un repositorio remoto y verificar los paquetes Unix. |
+
+## Criterio de salida de alpha
+
+LMR no se debe anunciar como distribución estable mientras la instalación dependa del checkout de desarrollo, los módulos/puente no estén empaquetados y validados, o las plataformas declaradas no tengan compilación reproducible. Cada etapa se actualiza con el trabajo y evidencia obtenida; las marcas “preliminar” no equivalen a aprobación de release.

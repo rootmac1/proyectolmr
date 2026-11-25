@@ -1,0 +1,62 @@
+{
+  "name": "lmr-language-support",
+  "displayName": "LMR Language Support",
+  "description": "Syntax highlighting, comments, indentation and snippets for the LMR programming language.",
+  "version": "0.3.0",
+  "publisher": "lmr-community",
+  "license": "MIT",
+  "main": "./extension.js",
+  "activationEvents": ["onLanguage:lmr"],
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": ["Programming Languages", "Snippets"],
+  "files": [
+    "extension.js",
+    "formatter.js",
+    "language-configuration.json",
+    "syntaxes/**",
+    "snippets/**",
+    "modules/manifest.json",
+    "README.md",
+    "LICENSE"
+  ],
+  "contributes": {
+    "languages": [
+      {
+        "id": "lmr",
+        "aliases": ["LMR", "lmr"],
+        "extensions": [".lmr"],
+        "configuration": "./language-configuration.json"
+      }
+    ],
+    "grammars": [
+      {
+        "language": "lmr",
+        "scopeName": "source.lmr",
+        "path": "./syntaxes/lmr.tmLanguage.json"
+      }
+    ],
+    "snippets": [
+      {
+        "language": "lmr",
+        "path": "./snippets/lmr.json"
+      }
+    ],
+    "configuration": {
+      "title": "LMR",
+      "properties": {
+        "lmr.compilerPath": {
+          "type": "string",
+          "default": "lmr",
+          "description": "Ruta al ejecutable del compilador LMR."
+        },
+        "lmr.diagnosticsOnType": {
+          "type": "boolean",
+          "default": true,
+          "description": "Vuelve a validar el archivo mientras se edita."
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,179 @@
+name: Build and publish release assets
+
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: Build ${{ matrix.os }} package
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 45
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [windows-latest, ubuntu-latest, macos-latest]
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v7
+
+      - name: Install stable Rust
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          components: rustfmt
+
+      - name: Validate tag matches Cargo version on Windows
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: |
+          $cargoToml = Get-Content Cargo.toml -Raw
+          $versionMatch = [regex]::Match($cargoToml, '(?m)^version\s*=\s*"([^"]+)"')
+          if (-not $versionMatch.Success) { throw "No se pudo leer Cargo.toml" }
+          $expected = "v" + $versionMatch.Groups[1].Value
+          if ($env:GITHUB_REF_NAME -ne $expected) { throw "La etiqueta $env:GITHUB_REF_NAME debe coincidir con $expected" }
+
+      - name: Validate tag matches Cargo version on Unix
+        if: runner.os != 'Windows'
+        run: |
+          version=$(sed -n 's/^version = "\([^"]*\)"$/\1/p' Cargo.toml | head -n 1)
+          test -n "$version"
+          test "$GITHUB_REF_NAME" = "v$version"
+
+      - name: Ensure Clang is available
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: |
+          if (-not (Get-Command clang -ErrorAction SilentlyContinue)) {
+            choco install llvm --yes --no-progress
+            $llvmBin = Join-Path $env:ProgramFiles "LLVM\bin"
+            if (Test-Path -LiteralPath (Join-Path $llvmBin "clang.exe")) {
+              $env:Path = $llvmBin + ";" + $env:Path
+              if ($env:GITHUB_PATH) { Add-Content -LiteralPath $env:GITHUB_PATH -Value $llvmBin }
+            }
+          }
+          clang --version
+
+      - name: Install Clang on Linux
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install --yes clang
+
+      - name: Confirm Clang on macOS
+        if: runner.os == 'macOS'
+        run: clang --version
+
+      - name: Check Rust formatting
+        run: cargo fmt --all -- --check
+
+      - name: Run compiler tests
+        run: cargo test --locked
+
+      - name: Install Node.js for editor and package checks
+        uses: actions/setup-node@v7
+        with:
+          node-version: 20
+
+      - name: Verify crate contents and packaged build
+        run: |
+          node --test scripts/validate-crate-package.test.js
+          node scripts/validate-crate-package.js
+          cargo package --locked
+
+      - name: Validate release metadata
+        run: |
+          node --test scripts/validate-release-metadata.test.js scripts/extract-release-notes.test.js
+          node scripts/validate-release-metadata.js
+
+      - name: Validate modules and community package
+        shell: bash
+        run: |
+          node --test lmr-vscode/test/formatter.test.js scripts/validate-module-package.test.js
+          node scripts/validate-module-package.js examples/community
+          cargo run -- check examples/community/demo.lmr
+
+      - name: Validate built-in module catalog
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: .\scripts\validate-module-manifest.ps1
+
+      - name: Build and smoke test portable package on Windows
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: |
+          .\scripts\package-windows.ps1
+          $archive = Get-ChildItem .\dist\lmr-*-windows-x86_64.zip | Select-Object -First 1 -ExpandProperty FullName
+          if (-not $archive) { throw "No se encontró el ZIP generado" }
+          .\scripts\smoke-portable-windows.ps1 -Archive $archive
+
+      - name: Build and smoke test portable package on Unix
+        if: runner.os != 'Windows'
+        shell: bash
+        run: |
+          bash scripts/package-unix.sh
+          set -- dist/lmr-*-*.tar.gz
+          test -f "$1"
+          bash scripts/smoke-portable-unix.sh "$1"
+
+      - name: Upload Windows package
+        if: runner.os == 'Windows'
+        uses: actions/upload-artifact@v7
+        with:
+          name: lmr-windows
+          path: dist/*.zip
+          if-no-files-found: error
+
+      - name: Upload Unix package
+        if: runner.os != 'Windows'
+        uses: actions/upload-artifact@v7
+        with:
+          name: lmr-${{ matrix.os }}
+          path: dist/*.tar.gz
+          if-no-files-found: error
+
+  publish:
+    name: Publish GitHub release
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Check out release notes
+        uses: actions/checkout@v7
+
+      - name: Download platform packages
+        uses: actions/download-artifact@v8
+        with:
+          pattern: lmr-*
+          merge-multiple: true
+          path: dist
+
+      - name: Set up Node.js for VSIX packaging
+        uses: actions/setup-node@v7
+        with:
+          node-version: 22
+
+      - name: Extract notes for this version
+        run: node scripts/extract-release-notes.js "$GITHUB_REF_NAME" > release-notes.md
+
+      - name: Package and inspect editor extensions
+        run: bash scripts/package-extensions.sh dist
+
+      - name: Generate SHA-256 checksums
+        run: (cd dist && sha256sum lmr-* > SHA256SUMS)
+
+      - name: Publish prerelease
+        if: contains(github.ref_name, '-')
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: gh release create "$GITHUB_REF_NAME" dist/lmr-* dist/SHA256SUMS --verify-tag --prerelease --title "LMR $GITHUB_REF_NAME" --notes-file release-notes.md
+
+      - name: Publish stable release
+        if: ${{ !contains(github.ref_name, '-') }}
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: gh release create "$GITHUB_REF_NAME" dist/lmr-* dist/SHA256SUMS --verify-tag --title "LMR $GITHUB_REF_NAME" --notes-file release-notes.md

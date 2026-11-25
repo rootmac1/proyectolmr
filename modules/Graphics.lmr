@@ -1,0 +1,76 @@
+// modules/Graphics.lmr
+// Motor Gráfico 2D nativo para LMR con soporte de teclado
+
+extern func lmr_init_window(int width, int height, string title): int
+extern func lmr_window_should_close(): bool
+extern func lmr_begin_drawing()
+extern func lmr_clear_background(int r, int g, int b)
+extern func lmr_draw_rectangle(int x, int y, int w, int h, int r, int g, int b)
+extern func lmr_draw_text(string text, int x, int y, int size, int r, int g, int b)
+extern func lmr_end_drawing()
+extern func lmr_close_window()
+extern func lmr_is_key_down(int vkey): bool
+extern func lmr_draw_scrollable_text(string text, int x, int y, int w, int h, int font_size, int r, int g, int b)
+extern func lmr_draw_report_table(string text, int x, int y, int w, int h, int font_size)
+
+func initWindow(int w, int h, string t)
+begin
+    lmr_init_window(w, h, t)
+end
+
+func windowShouldClose(): bool
+begin
+    return lmr_window_should_close()
+end
+
+func beginDrawing()
+begin
+    lmr_begin_drawing()
+end
+
+func clearBackground(int r, int g, int b)
+begin
+    lmr_clear_background(r, g, b)
+end
+
+func drawRectangle(int x, int y, int w, int h, int r, int g, int b)
+begin
+    lmr_draw_rectangle(x, y, w, h, r, g, b)
+end
+
+func drawText(string texto, int x, int y, int size, int r, int g, int b)
+begin
+    lmr_draw_text(texto, x, y, size, r, g, b)
+end
+
+// Dibuja texto en un panel con recorte y desplazamiento vertical con la rueda.
+func drawScrollableText(string texto, int x, int y, int w, int h, int size, int r, int g, int b)
+begin
+    lmr_draw_scrollable_text(texto, x, y, w, h, size, r, g, b)
+end
+
+func drawReportTable(string data, int x, int y, int w, int h, int size)
+begin
+    lmr_draw_report_table(data, x, y, w, h, size)
+end
+
+func endDrawing()
+begin
+    lmr_end_drawing()
+end
+
+func closeWindow()
+begin
+    lmr_close_window()
+end
+
+func isKeyDown(int key): bool
+begin
+    return lmr_is_key_down(key)
+end
+
+// Códigos virtuales de teclas (Windows Virtual-Keys) [1]
+func KEY_W(): int begin return 87 end
+func KEY_S(): int begin return 83 end
+func KEY_UP(): int begin return 38 end
+func KEY_DOWN(): int begin return 40 end

@@ -1,0 +1,13 @@
+// Plantilla para un módulo comunitario de LMR.
+// Renombra este archivo como NombreModulo.lmr y reemplaza los ejemplos.
+// Documenta firmas y requisitos también en modules/manifest.json.
+
+// API implementada enteramente en LMR:
+func saludarModulo(string nombre): string
+begin
+    return "Hola, " + nombre
+end
+
+// Si el módulo necesita código nativo, declara aquí las funciones externas
+// e implementa/enlaza esos símbolos en el puente nativo del proyecto.
+// extern func nombre_nativo(string entrada): string

@@ -1,0 +1,82 @@
+{
+  "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+  "name": "LMR",
+  "scopeName": "source.lmr",
+  "patterns": [
+    {"include": "#comments"},
+    {"include": "#strings"},
+    {"include": "#characters"},
+    {"include": "#function-declaration"},
+    {"include": "#type-declaration"},
+    {"include": "#keywords"},
+    {"include": "#types"},
+    {"include": "#constants"},
+    {"include": "#functions"},
+    {"include": "#numbers"},
+    {"include": "#operators"}
+  ],
+  "repository": {
+    "comments": {
+      "patterns": [
+        {"name": "comment.line.double-slash.lmr", "begin": "//", "end": "$"},
+        {"name": "comment.block.lmr", "begin": "/\\*", "end": "\\*/"}
+      ]
+    },
+    "strings": {
+      "name": "string.quoted.double.lmr",
+      "begin": "\"",
+      "end": "\"",
+      "patterns": [
+        {"name": "constant.character.escape.lmr", "match": "\\\\."}
+      ]
+    },
+    "characters": {
+      "name": "string.quoted.single.lmr",
+      "begin": "'",
+      "end": "'",
+      "patterns": [
+        {"name": "constant.character.escape.lmr", "match": "\\\\."}
+      ]
+    },
+    "function-declaration": {
+      "match": "^\\s*(func)\\s+([A-Za-z_][A-Za-z0-9_]*)",
+      "captures": {
+        "1": {"name": "storage.type.function.lmr"},
+        "2": {"name": "entity.name.function.lmr"}
+      }
+    },
+    "type-declaration": {
+      "match": "^\\s*(class|record|enum)\\s+([A-Za-z_][A-Za-z0-9_]*)",
+      "captures": {
+        "1": {"name": "storage.type.lmr"},
+        "2": {"name": "entity.name.type.lmr"}
+      }
+    },
+    "keywords": {
+      "name": "keyword.control.lmr",
+      "match": "\\b(begin|end|if|then|else|while|do|for|to|in|return|const|import|from|new|extends|extern|contains|spawn|override|try|catch|throw|and|or|not|shl|shr|xor|bitand|bitor)\\b"
+    },
+    "types": {
+      "name": "storage.type.lmr",
+      "match": "\\b(int|float|bool|string|char|array|map|ptr)\\b"
+    },
+    "constants": {
+      "name": "constant.language.lmr",
+      "match": "\\b(true|false)\\b"
+    },
+    "functions": {
+      "name": "entity.name.function.call.lmr",
+      "match": "\\b[A-Za-z_][A-Za-z0-9_]*(?=\\s*\\()"
+    },
+    "numbers": {
+      "patterns": [
+        {"name": "constant.numeric.float.lmr", "match": "\\b[0-9]+\\.[0-9]+\\b"},
+        {"name": "constant.numeric.integer.lmr", "match": "\\b[0-9]+\\b"}
+      ]
+    },
+    "operators": {
+      "name": "keyword.operator.lmr",
+      "match": "==|!=|<=|>=|[+*/=<>&|^-]"
+    }
+  }
+}

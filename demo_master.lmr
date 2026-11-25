@@ -1,0 +1,31 @@
+from Math import raiz, potencia
+
+begin
+    string nombre, texto_archivo
+    float hipotenusa, lado_a, lado_b
+    bool guardado
+
+    // 1. Matemáticas de precisión
+    lado_a = 3.0
+    lado_b = 4.0
+    hipotenusa = raiz(potencia(lado_a, 2.0) + potencia(lado_b, 2.0))
+    write("Hipotenusa de triangulo (3, 4): ")
+    writeln(hipotenusa)
+
+    // 2. Manejo de Archivos en Disco
+    guardado = writeFile("mensaje_lmr.txt", "Hola! Este archivo fue generado nativamente por LMR.")
+    if guardado then
+    begin
+        writeln("Archivo 'mensaje_lmr.txt' escrito con exito.")
+    end
+
+    texto_archivo = readFile("mensaje_lmr.txt")
+    write("Contenido leido del archivo: '")
+    write(texto_archivo)
+    writeln("'")
+
+    // 3. Entrada de consola interactiva
+    write("Por favor, escribe tu nombre: ")
+    readln(nombre)
+    writeln("Mucho gusto, " + nombre + "! Bienvenido al ecosistema LMR.")
+end.

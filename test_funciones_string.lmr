@@ -1,0 +1,36 @@
+begin
+    string mensaje, mayus, minus, parte1, parte2, numero_str
+    int posicion, puntos
+
+    mensaje = "Lenguaje LMR Turbo"
+    puntos = 1500
+
+    // 1. Mayúsculas y Minúsculas
+    mayus = toUpper(mensaje)
+    minus = toLower(mensaje)
+    writeln("toUpper: ", mayus)
+    writeln("toLower: ", minus)
+
+    // 2. SliceString con 3 parámetros (inicio, cantidad)
+    parte1 = SliceString(mensaje, 0, 8)
+    write("SliceString 3 parametros (0 a 8): '")
+    write(parte1)
+    writeln("'")
+
+    // 3. SliceString con 2 parámetros (inicio hasta el final)
+    parte2 = SliceString(mensaje, 9)
+    write("SliceString hasta el final (desde 9): '")
+    write(parte2)
+    writeln("'")
+
+    // 4. Búsqueda con posString
+    posicion = posString("LMR", mensaje)
+    write("posString de 'LMR' en '")
+    write(mensaje)
+    write("': indice ")
+    writeln(posicion)
+
+    // 5. Conversión intToString para concatenación
+    numero_str = intToString(puntos)
+    writeln("Puntaje acumulado: " + numero_str + " pts.")
+end.

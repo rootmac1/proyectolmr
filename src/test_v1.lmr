@@ -1,0 +1,43 @@
+class Archivo
+begin
+    string nombre
+
+    func constructor(string n)
+    begin
+        nombre = n
+    end
+
+    func procesar()
+    begin
+        // 1. Manejo de Errores con try ... catch y throw
+        try
+        begin
+            writeln("Abriendo archivo: " + nombre)
+            if nombre == "prohibido.txt" then
+            begin
+                throw("Permiso denegado: el archivo es confidencial")
+            end
+            writeln("Archivo procesado con exito.")
+        end
+        catch (error)
+        begin
+            writeln("Excepcion capturada: " + error)
+        end
+    end
+end
+
+begin
+    // Probar try / catch / throw
+    Archivo a1, a2
+    a1 = new Archivo("datos.txt")
+    a2 = new Archivo("prohibido.txt")
+
+    a1.procesar()
+    a2.procesar()
+
+    // 2. Liberación de memoria con dispose()
+    writeln("Liberando memoria de objetos...")
+    dispose(a1)
+    dispose(a2)
+    writeln("Memoria liberada exitosamente.")
+end.

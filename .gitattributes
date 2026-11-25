@@ -1,0 +1,23 @@
+* text=auto
+*.rs text eol=lf
+*.c text eol=lf
+*.h text eol=lf
+*.lmr text eol=lf
+*.md text eol=lf
+*.json text eol=lf
+*.toml text eol=lf
+*.yml text eol=lf
+*.yaml text eol=lf
+*.sh text eol=lf
+*.ps1 text eol=crlf
+*.bat text eol=crlf
+*.png binary
+*.ico binary
+*.db binary
+*.sqlite binary
+*.sqlite3 binary
+*.zip binary
+*.exe binary
+*.vsix binary
+*.o binary
+*.ll binary

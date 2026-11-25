@@ -1,0 +1,32 @@
+func tareaParalela1()
+begin
+    writeln("[HILO 1] Iniciando descarga pesada en segundo plano...")
+    sleep(2000) // Simula 2 segundos de descarga
+    writeln("[HILO 1] Descarga de datos terminada con exito!")
+end
+
+// Otra tarea paralela en otro hilo independiente
+func tareaParalela2()
+begin
+    writeln("[HILO 2] Monitoreando libro de ordenes en vivo...")
+    sleep(1000)
+    writeln("[HILO 2] Libro de ordenes sincronizado!")
+end
+
+begin
+    writeln("================================================")
+    writeln("     LMR - FASE 14 CONCURRENCIA ASINCRONA       ")
+    writeln("================================================")
+
+    // Lanzamos ambas tareas a correr en hilos paralelos independientes
+    spawn tareaParalela1()
+    spawn tareaParalela2()
+
+    writeln("[PRINCIPAL] El hilo principal NO se congelo!")
+    writeln("[PRINCIPAL] Sigue respondiendo inmediatamente mientras los hilos trabajan.")
+
+    // Pausamos el hilo principal para esperar que los hilos secundarios terminen
+    sleep(3000)
+
+    writeln("[PRINCIPAL] Todas las tareas paralelas han finalizado.")
+end.

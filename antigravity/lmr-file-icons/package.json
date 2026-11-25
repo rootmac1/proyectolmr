@@ -1,0 +1,28 @@
+{
+  "name": "lmr-file-icons",
+  "displayName": "LMR File Icons",
+  "description": "Icono de LMR para archivos .lmr en el explorador de Antigravity y VS Code.",
+  "version": "1.0.0",
+  "publisher": "lmr-community",
+  "license": "MIT",
+  "engines": {
+    "vscode": "^1.80.0"
+  },
+  "categories": [
+    "Themes"
+  ],
+  "files": [
+    "icons/**",
+    "README.md",
+    "LICENSE"
+  ],
+  "contributes": {
+    "iconThemes": [
+      {
+        "id": "lmr-file-icons",
+        "label": "LMR File Icons",
+        "path": "./icons/lmr-icon-theme.json"
+      }
+    ]
+  }
+}

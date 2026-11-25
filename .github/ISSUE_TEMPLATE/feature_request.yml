@@ -1,0 +1,28 @@
+name: Proponer una mejora
+description: Describe una necesidad y cómo ayudaría a quienes programan en LMR.
+title: "[Mejora]: "
+labels:
+  - enhancement
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Necesidad o problema
+      description: ¿Qué tarea es difícil o imposible de realizar actualmente?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Propuesta
+      description: Describe el comportamiento esperado e incluye un ejemplo LMR si aplica.
+      render: text
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternativas consideradas
+      description: Opcional. Indica soluciones temporales o diseños que hayas evaluado.
+    validations:
+      required: false

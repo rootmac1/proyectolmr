@@ -1,0 +1,13 @@
+{
+  "iconDefinitions": {
+    "_lmr": {
+      "iconPath": "./lmr.svg"
+    }
+  },
+  "fileExtensions": {
+    "lmr": "_lmr"
+  },
+  "languageIds": {
+    "lmr": "_lmr"
+  }
+}

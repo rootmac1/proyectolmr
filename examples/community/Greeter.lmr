@@ -1,0 +1,4 @@
+func greet(string name): string
+begin
+    return "Hello, " + name
+end

@@ -1,0 +1,145 @@
+// modules/Trade.lmr
+// Módulo de Trading y Conectividad Cripto para LMR
+
+// --- Funciones FFI del puente nativo ---
+extern func lmr_http_get(string url): string
+extern func lmr_ws_connect(string url): ptr
+extern func lmr_ws_read(ptr handle): string
+extern func lmr_ws_close(ptr handle)
+extern func lmr_json_get_number(string json, string key): float
+extern func lmr_set_crypto_price(string symbol, float price)
+extern func lmr_get_crypto_price(string symbol): float
+
+// --- Funciones de Memoria Compartida para Hilos ---
+func setPrice(string symbol, float price)
+begin
+    lmr_set_crypto_price(symbol, price)
+end
+
+func getPrice(string symbol): float
+begin
+    return lmr_get_crypto_price(symbol)
+end
+
+// Estructura de Mercado
+class Ticker
+begin
+    string symbol
+    float price
+
+    func constructor(string s, float p)
+    begin
+        symbol = s
+        price = p
+    end
+
+    func imprimir()
+    begin
+        write("[TICKER] ", symbol)
+        write(" -> Precio: $")
+        writeln(price)
+    end
+end
+
+// Clase Base de Exchange
+class Exchange
+begin
+    string name
+
+    func constructor(string n)
+    begin
+        name = n
+    end
+end
+
+// Adaptador de Binance
+class Binance extends Exchange
+begin
+    func constructor()
+    begin
+        name = "Binance"
+    end
+
+    // REST API: Consulta precio actual (ej: "BTCUSDT")
+    func fetchPrice(string symbol): float
+    begin
+        string url, json
+        float precio
+
+        url = "https://api.binance.com/api/v3/ticker/price?symbol=" + symbol
+        json = lmr_http_get(url)
+        precio = lmr_json_get_number(json, "price")
+        return precio
+    end
+
+    // REST API: Devuelve el objeto Ticker completo
+    func fetchTicker(string symbol): Ticker
+    begin
+        float p
+        p = fetchPrice(symbol)
+        return new Ticker(symbol, p)
+    end
+end
+
+// Adaptador de Bybit
+class Bybit extends Exchange
+begin
+    func constructor()
+    begin
+        name = "Bybit"
+    end
+
+    func fetchPrice(string symbol): float
+    begin
+        string url, json
+        float precio
+
+        url = "https://api.bybit.com/v5/market/tickers?category=spot&symbol=" + symbol
+        json = lmr_http_get(url)
+        precio = lmr_json_get_number(json, "lastPrice")
+        return precio
+    end
+end
+
+// Adaptador de Coinbase
+class Coinbase extends Exchange
+begin
+    func constructor()
+    begin
+        name = "Coinbase"
+    end
+
+    func fetchPrice(string symbol): float
+    begin
+        string url, json
+        float precio
+
+        url = "https://api.coinbase.com/v2/prices/" + symbol + "/spot"
+        json = lmr_http_get(url)
+        precio = lmr_json_get_number(json, "amount")
+        return precio
+    end
+end
+
+// Cliente de Flujo en Vivo (WebSocket Stream)
+class CryptoStream
+begin
+    ptr ws_handle
+
+    func conectar(string wss_url)
+    begin
+        writeln("[WS] Conectando a stream: " + wss_url)
+        ws_handle = lmr_ws_connect(wss_url)
+    end
+
+    func leerMensaje(): string
+    begin
+        return lmr_ws_read(ws_handle)
+    end
+
+    func desconectar()
+    begin
+        lmr_ws_close(ws_handle)
+        writeln("[WS] Desconectado.")
+    end
+end

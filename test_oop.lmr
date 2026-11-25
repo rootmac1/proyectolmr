@@ -1,0 +1,39 @@
+class Persona
+begin
+    string nombre
+    int edad
+
+    func constructor(string n, int e)
+    begin
+        nombre = n
+        edad = e
+    end
+
+    func cumplirAnios()
+    begin
+        edad = edad + 1
+        write("Feliz cumpleanios! Nueva edad: ")
+        writeln(edad)
+    end
+
+    func saludar()
+    begin
+        write("Hola! Mi nombre es ", nombre)
+        write(" y tengo ", edad)
+        writeln(" anios.")
+    end
+end
+
+begin
+    Persona p
+    p = new Persona("Luis Munayco", 25)
+
+    // Llamadas a métodos
+    p.saludar()
+    p.cumplirAnios()
+
+    // Acceso y modificación directa de atributo
+    p.edad = 30
+    write("Edad modificada directamente: ")
+    writeln(p.edad)
+end.

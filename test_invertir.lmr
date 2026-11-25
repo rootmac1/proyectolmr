@@ -1,0 +1,17 @@
+begin
+    string original, invertida, letra
+    int longitud
+
+    original = "Pascal"
+    invertida = ""
+    longitud = len(original)
+
+    for i = 0 to longitud - 1 do
+    begin
+        letra = original[i]           // Extraemos el carácter como un string de 1 letra
+        invertida = letra + invertida  // Lo anteponemos
+    end
+
+    writeln("Original:  ", original)
+    writeln("Invertida: ", invertida)
+end.

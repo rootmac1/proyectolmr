@@ -1,0 +1,7 @@
+// Importador de tickets Bet365 hacia SQLite, separado de las cuotas de mercado.
+extern func lmr_import_bet365_csv(string csv_path, string db_path): int
+
+func importBet365Csv(string csv_path, string db_path): int
+begin
+    return lmr_import_bet365_csv(csv_path, db_path)
+end

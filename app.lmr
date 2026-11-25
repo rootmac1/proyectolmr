@@ -1,0 +1,15 @@
+from Matematicas import duplicar, calcularPotencia
+
+begin
+    int numero, doble, potencia
+    numero = 7
+
+    doble = duplicar(numero)
+    potencia = calcularPotencia(2, 5)
+
+    write("El doble de 7 es: ")
+    writeln(doble)
+
+    write("2 elevado a la 5 es: ")
+    writeln(potencia)
+end.

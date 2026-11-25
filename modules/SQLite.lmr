@@ -1,0 +1,104 @@
+// modules/SQLite.lmr
+// Driver oficial de SQLite para LMR con soporte de Cursor y RAII
+
+extern func lmr_db_open(string path): ptr
+extern func lmr_db_open_readonly(string path): ptr
+extern func lmr_db_is_valid(ptr handle): bool
+extern func lmr_db_close(ptr db): ptr
+extern func lmr_db_execute(ptr db, string sql): bool
+extern func lmr_db_prepare(ptr db, string sql): ptr
+extern func lmr_db_step(ptr stmt): bool
+extern func lmr_db_get_text(ptr stmt, int col): string
+extern func lmr_db_get_int(ptr stmt, int col): int
+extern func lmr_db_get_float(ptr stmt, int col): float
+extern func lmr_db_finalize(ptr stmt): ptr
+
+// Cursor que itera sobre las filas de una consulta
+class Cursor
+begin
+    ptr stmt
+
+    func constructor(ptr s)
+    begin
+        stmt = s
+    end
+
+    // Avanza a la siguiente fila (devuelve true si hay datos, false al terminar)
+    func next(): bool
+    begin
+        return lmr_db_step(stmt)
+    end
+
+    func getString(int col): string
+    begin
+        return lmr_db_get_text(stmt, col)
+    end
+
+    func getInt(int col): int
+    begin
+        return lmr_db_get_int(stmt, col)
+    end
+
+    func getFloat(int col): float
+    begin
+        return lmr_db_get_float(stmt, col)
+    end
+
+    func close()
+    begin
+        stmt = lmr_db_finalize(stmt)
+    end
+
+    // RAII: Libera el statement automáticamente al salir del ámbito
+    func destructor()
+    begin
+        close()
+    end
+end
+
+// Objeto de Conexión a la Base de Datos
+class Database
+begin
+    ptr handle
+
+    func constructor()
+    begin
+    end
+
+    func connect(string path): bool
+    begin
+        handle = lmr_db_open(path)
+        return lmr_db_is_valid(handle)
+    end
+
+    func connectReadOnly(string path): bool
+    begin
+        handle = lmr_db_open_readonly(path)
+        return lmr_db_is_valid(handle)
+    end
+
+    // Para CREATE TABLE, INSERT, UPDATE, DELETE
+    func execute(string sql): bool
+    begin
+        return lmr_db_execute(handle, sql)
+    end
+
+    // Para SELECT (devuelve un Cursor iterable)
+    func query(string sql): Cursor
+    begin
+        ptr s
+        s = lmr_db_prepare(handle, sql)
+        return new Cursor(s)
+    end
+
+    func close()
+    begin
+        handle = lmr_db_close(handle)
+    end
+
+    // RAII: Cierra la base de datos automáticamente al salir del bloque
+    func destructor()
+    begin
+        close()
+    end
+end

@@ -1,0 +1,48 @@
+from Graphics import initWindow, windowShouldClose, beginDrawing, clearBackground, drawRectangle, drawText, endDrawing, closeWindow
+
+begin
+    writeln("Iniciando ventana grafica nativa LMR...")
+
+    // 1. Abrir ventana de 800x600 píxeles
+    initWindow(800, 600, "LMR Engine 2D - Crypto Dashboard")
+
+    int posY
+    posY = 200
+
+    // 2. Bucle principal de cuadros (Game Loop a 60 FPS)
+    while not windowShouldClose() do
+    begin
+        beginDrawing()
+
+        // Fondo oscuro (RGB: 20, 24, 35)
+        clearBackground(20, 24, 35)
+
+        // Cabecera
+        drawRectangle(0, 0, 800, 60, 30, 38, 56)
+        drawText("LMR CRYPTO ENGINE 2D - LIVE TICKER", 40, 20, 22, 255, 255, 255)
+
+        // Barra Verde (Bitcoin Subiendo)
+        drawRectangle(100, 150, 120, 300, 38, 166, 154) // Verde Trading
+        drawText("BTC/USDT", 110, 470, 18, 255, 255, 255)
+        drawText("$84,250", 110, 110, 20, 38, 166, 154)
+
+        // Barra Roja (Ethereum Retrocediendo)
+        drawRectangle(320, 250, 120, 200, 239, 83, 80) // Rojo Trading
+        drawText("ETH/USDT", 330, 470, 18, 255, 255, 255)
+        drawText("$3,410", 345, 210, 20, 239, 83, 80)
+
+        // Barra Azul (Solana Estable)
+        drawRectangle(540, 200, 120, 250, 41, 98, 255) // Azul Trading
+        drawText("SOL/USDT", 555, 470, 18, 255, 255, 255)
+        drawText("$195.80", 555, 160, 20, 41, 98, 255)
+
+        // Pie de pantalla
+        drawText("Cierra la ventana con la [X] para finalizar.", 240, 540, 16, 150, 160, 180)
+
+        endDrawing()
+    end
+
+    // 3. Destruir y liberar ventana
+    closeWindow()
+    writeln("Ventana cerrada y recursos graficos liberados.")
+end.

@@ -1,0 +1,50 @@
+class ConexionBD
+begin
+    string id
+
+    func constructor(string nombre)
+    begin
+        id = nombre
+        writeln("[+] Conexion creada y bloqueada: " + id)
+    end
+
+    // ¡El compilador inyectará este destructor automáticamente!
+    func destructor()
+    begin
+        writeln("[-] Destruyendo conexion y liberando recursos: " + id)
+    end
+end
+
+begin
+    writeln("--- 1. PROBANDO MAPAS (DICCIONARIOS) ---")
+    map[string, int] inventario
+    inventario = new map[string, int]()
+
+    // Asignación de pares clave-valor
+    inventario["manzanas"] = 50
+    inventario["naranjas"] = 30
+
+    // Lectura por clave
+    writeln("Stock de manzanas: ", inventario["manzanas"])
+
+    // Función nativa contains()
+    if contains(inventario, "peras") then
+    begin
+        writeln("Tenemos peras.")
+    end
+    else
+    begin
+        writeln("No hay peras en el mapa.")
+    end
+
+    writeln("\n--- 2. PROBANDO RAII (DESTRUCTORES AUTOMATICOS) ---")
+    if true then
+    begin
+        writeln("-> Entrando al bloque IF...")
+        ConexionBD c
+        c = new ConexionBD("Servidor Principal")
+        writeln("-> Realizando operaciones...")
+    end // Al llegar aquí, c.destructor() y free() se ejecutan mágicamente
+
+    writeln("-> Salimos del bloque IF. La memoria fue limpiada automáticamente.")
+end.

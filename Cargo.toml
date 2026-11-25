@@ -1,0 +1,33 @@
+[package]
+name = "lmr"
+version = "0.1.0-alpha.10"
+edition = "2024"
+rust-version = "1.85"
+description = "Compilador nativo del lenguaje de programación LMR"
+readme = "README.md"
+license = "MIT"
+homepage = "https://github.com/rootmac1/proyectolmr"
+repository = "https://github.com/rootmac1/proyectolmr"
+documentation = "https://github.com/rootmac1/proyectolmr#readme"
+keywords = ["compiler", "programming-language", "llvm"]
+categories = ["compilers", "development-tools"]
+include = [
+    "/Cargo.toml",
+    "/Cargo.lock",
+    "/README.md",
+    "/CHANGELOG.md",
+    "/CONTRIBUTING.md",
+    "/GUIA_LMR_ES.md",
+    "/LICENSE",
+    "/VERSIONING.md",
+    "/build.rs",
+    "/src/*.rs",
+    "/src/trade_bridge.c",
+    "/modules/*.lmr",
+    "/modules/manifest.json",
+    "/assets/brand/lmr.ico",
+    "/docs/**",
+    "/examples/community/**",
+]
+
+[dependencies]

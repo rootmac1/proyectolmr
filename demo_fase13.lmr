@@ -1,0 +1,47 @@
+// Definición de estructura en la PILA (sin malloc ni destructores)
+record Coordenada
+begin
+    int x
+    int y
+end
+
+begin
+    writeln("========================================")
+    writeln("          LMR - FASE 13 DEMO            ")
+    writeln("========================================")
+
+    // 1. Probando RECORDS (Estructuras por valor en el stack)
+    writeln("--- 1. PROBANDO RECORD EN PILA ---")
+    Coordenada c
+    c.x = 100
+    c.y = 250
+    write("Punto en pantalla: (")
+    write(c.x)
+    write(", ")
+    write(c.y)
+    writeln(")")
+
+    // 2. Probando OPERADORES BITWISE (64 bits)
+    writeln("\n--- 2. PROBANDO OPERADORES BITWISE ---")
+    int a, b, r_shl, r_shr, r_xor, r_and, r_or
+    a = 8       // binario: 1000
+    b = 2
+
+    r_shl = a shl b    // 8 << 2 = 32
+    r_shr = a shr b    // 8 >> 2 = 2
+    r_xor = a xor 3    // 8 ^ 3 = 11
+    r_and = a bitand 8 // 8 & 8 = 8
+    r_or  = a bitor 1  // 8 | 1 = 9
+
+    writeln("8 shl 2    = ", r_shl)
+    writeln("8 shr 2    = ", r_shr)
+    writeln("8 xor 3    = ", r_xor)
+    writeln("8 bitand 8 = ", r_and)
+    writeln("8 bitor 1  = ", r_or)
+
+    // 3. Probando SLEEP nativo
+    writeln("\n--- 3. PROBANDO SLEEP (Pausa de 2 segundos) ---")
+    write("Iniciando temporizador...")
+    sleep(2000) // Pausa de 2000 ms (2 segundos)
+    writeln(" Terminado con exito!")
+end.

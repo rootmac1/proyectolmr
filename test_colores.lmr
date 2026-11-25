@@ -1,0 +1,24 @@
+from Console import RESET, RED, GREEN, YELLOW, CYAN, WHITE, BOLD, BG_BLUE, clearScreen
+
+begin
+    // Limpiar toda la consola antes de empezar
+    clearScreen()
+
+    writeln(BOLD() + CYAN() + "========================================" + RESET())
+    writeln(BOLD() + CYAN() + "       BIENVENIDO A LMR OS v1.0         " + RESET())
+    writeln(BOLD() + CYAN() + "========================================" + RESET())
+    writeln("")
+
+    writeln(GREEN() + "[OK] " + RESET() + "Sistema de archivos cargado.")
+    writeln(GREEN() + "[OK] " + RESET() + "Modulos de memoria en linea.")
+
+    writeln(YELLOW() + "[WARN] " + RESET() + "Actualizacion del sistema pendiente.")
+
+    writeln(RED() + BOLD() + "[ERROR] " + RESET() + RED() + "Fallo critico en el sector 7." + RESET())
+
+    writeln("")
+    writeln(BG_BLUE() + WHITE() + BOLD() + "   PRESIONE ENTER PARA CONTINUAR   " + RESET())
+
+    // Leer linea vacia solo para pausar
+    readln()
+end.
