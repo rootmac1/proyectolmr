@@ -48,6 +48,7 @@ Desde el checkout del repositorio, en Linux/macOS genera el paquete nativo con `
 - `src/`: lexer, parser, análisis semántico, generador LLVM y puente nativo.
 - `modules/`: módulos LMR incluidos, más [`manifest.json`](modules/manifest.json), catálogo descriptivo.
 - `docs/MODULE_API.md`: contrato actual para documentar y contribuir módulos.
+- [`docs/ARQUITECTURA.md`](docs/ARQUITECTURA.md): diagrama del flujo desde el código LMR hasta el ejecutable nativo.
 - `docs/module-package.schema.json`: esquema del manifiesto comunitario `lmr-module.json`.
 - `scripts/validate-module-package.js`: validador local del contrato para paquetes comunitarios.
 - `scripts/validate-release-metadata.js`: comprueba que Cargo, README, política de versiones y changelog coincidan.
